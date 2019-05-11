@@ -85,9 +85,13 @@ namespace dant02.snippets.dotnet.lib
             return result;
         }
 
-        public int ReadFromStream(Stream stream)
+        public int ReadFromStream(Stream stream, int count)
         {
             var length = allocatedSize - writeIndex;
+
+            if (count > length)
+                Resize(count);
+
             var read = stream.Read(buffer, writeIndex, length);
             writeIndex += read;
             return read;
