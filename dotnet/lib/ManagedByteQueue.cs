@@ -1,5 +1,5 @@
 ﻿/////////////////////////////////////////////////////////////////////
-//  implementation using utilizing BufferManager
+//  implementation of ByteQueue utilizing BufferManager
 /////////////////////////////////////////////////////////////////////
 
 #if !NETSTANDARD1_6 && !NETSTANDARD2_0
@@ -13,13 +13,13 @@ namespace dant02.snippets.dotnet.lib
     {
         private readonly BufferManager bufferManager = null;
 
-        public ManagedByteQueue(BufferManager manager)
+        public ManagedByteQueue(string name, BufferManager manager) : base(name)
         {
             this.bufferManager = manager;
             this.buffer = manager.TakeBuffer(allocatedSize);
         }
 
-        public ManagedByteQueue(BufferManager manager, int size)
+        public ManagedByteQueue(string name, BufferManager manager, int size) : base(name)
         {
             this.bufferManager = manager;
             this.allocatedSize = size;

@@ -8,12 +8,12 @@ namespace dant02.snippets.dotnet.lib
 {
     public class ByteQueue : AbstractByteQueue
     {
-        public ByteQueue()
+        public ByteQueue(string name) : base(name)
         {
             this.buffer = new byte[allocatedSize];
         }
 
-        public ByteQueue(int size)
+        public ByteQueue(string name, int size) : base(name)
         {
             allocatedSize = size;
             this.buffer = new byte[allocatedSize];

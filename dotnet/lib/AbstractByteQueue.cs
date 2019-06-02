@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace dant02.snippets.dotnet.lib
 {
@@ -14,7 +15,13 @@ namespace dant02.snippets.dotnet.lib
         protected int readIndex = 0;
         protected int writeIndex = 0;
 
+        public AbstractByteQueue(string name)
+        {
+            this.Name = name;
+        }
+
         public int Count { get { return writeIndex - readIndex; } }
+        protected string Name { get; }
 
         public void Add(byte data)
         {
@@ -59,8 +66,8 @@ namespace dant02.snippets.dotnet.lib
 
         public Int32 GetInt32()
         {
-            if (writeIndex - readIndex < 4)
-                throw new InvalidOperationException("Not enough data in buffer");
+            if (this.Count < 4)
+                throw new InvalidOperationException($"Not enough data in buffer, name: {this.Name}, GetInt32, rI:{readIndex}, wI:{writeIndex}");
 
             Int32 result = BitConverter.ToInt32(this.buffer, readIndex);
             readIndex += 4;
@@ -73,8 +80,8 @@ namespace dant02.snippets.dotnet.lib
 
         public Int64 GetInt64()
         {
-            if (writeIndex - readIndex < 8)
-                throw new InvalidOperationException("Not enough data in buffer");
+            if (this.Count < 8)
+                throw new InvalidOperationException($"Not enough data in buffer, name: {this.Name}, GetInt64, rI:{readIndex}, wI:{writeIndex}");
 
             Int64 result = BitConverter.ToInt64(this.buffer, readIndex);
             readIndex += 8;
@@ -97,10 +104,27 @@ namespace dant02.snippets.dotnet.lib
             return read;
         }
 
+        public async Task<int> ReadFromStreamAsync(Stream stream, int count)
+        {
+            var length = allocatedSize - writeIndex;
+
+            if (count > length)
+                Resize(count);
+
+            var read = await stream.ReadAsync(buffer, writeIndex, length);
+
+            writeIndex += read;
+            return read;
+        }
+
         public void WriteToStream(Stream stream)
         {
-            var length = writeIndex - readIndex;
+            var length = this.Count;
             stream.Write(buffer, readIndex, length);
+            readIndex += length;
+
+            if (readIndex == writeIndex)
+                readIndex = writeIndex = 0;
         }
 
         protected abstract void Resize(int length);
