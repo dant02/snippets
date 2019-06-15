@@ -18,6 +18,15 @@
 		<PackageDescription>.NET Snippets Library</PackageDescription>
 		<PackageTags></PackageTags>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/dant02/snippets</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/dant02/snippets</RepositoryUrl>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Company />
+		<Authors>dant02</Authors>
+		<PackageReleaseNotes>ByteQueue
+- wrapper around byte array to simplify exchange of data when reading from or writing to stream</PackageReleaseNotes>
 	</PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DefineConstants>TRACE</DefineConstants>
@@ -47,5 +56,11 @@
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
 		<PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
 	</ItemGroup>
 </Project>
