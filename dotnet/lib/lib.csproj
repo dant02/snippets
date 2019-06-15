@@ -9,13 +9,13 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
   <PropertyGroup>
-		<AssemblyTitle>.NET Snippest Library</AssemblyTitle>
+		<AssemblyTitle>.NET Snippets Library</AssemblyTitle>
 		<Copyright>(c) 2018-2019</Copyright>
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>dant02.snippets.dotnet.lib</PackageId>
 		<Title>.NET Snippest Library</Title>
-		<PackageDescription>.NET Snippest Library</PackageDescription>
+		<PackageDescription>.NET Snippets Library</PackageDescription>
 		<PackageTags></PackageTags>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	</PropertyGroup>

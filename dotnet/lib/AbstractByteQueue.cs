@@ -51,17 +51,16 @@ namespace dant02.snippets.dotnet.lib
 
         public int Get(byte[] data, int offset, int count)
         {
-            int result = count;
-            if (this.Count < result)
-                result = this.Count;
+            if (this.Count < count)
+                count = this.Count;
 
             Buffer.BlockCopy(this.buffer, readIndex, data, offset, count);
-            readIndex += result;
+            readIndex += count;
 
             if (readIndex == writeIndex)
                 readIndex = writeIndex = 0;
 
-            return result;
+            return count;
         }
 
         public Int32 GetInt32()
