@@ -26,7 +26,10 @@
 		<Company />
 		<Authors>dant02</Authors>
 		<PackageReleaseNotes>ByteQueue
-- wrapper around byte array to simplify exchange of data when reading from or writing to stream</PackageReleaseNotes>
+- fix for read count</PackageReleaseNotes>
+		<Version>1.0.0</Version>
+		<AssemblyVersion>1.0.0.1</AssemblyVersion>
+		<FileVersion>1.0.0.1</FileVersion>
 	</PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DefineConstants>TRACE</DefineConstants>

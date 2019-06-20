@@ -98,7 +98,7 @@ namespace dant02.snippets.dotnet.lib
             if (count > length)
                 Resize(count);
 
-            var read = stream.Read(buffer, writeIndex, length);
+            var read = stream.Read(buffer, writeIndex, count);
             writeIndex += read;
             return read;
         }
@@ -110,7 +110,7 @@ namespace dant02.snippets.dotnet.lib
             if (count > length)
                 Resize(count);
 
-            var read = await stream.ReadAsync(buffer, writeIndex, length);
+            var read = await stream.ReadAsync(buffer, writeIndex, count);
 
             writeIndex += read;
             return read;
@@ -126,6 +126,6 @@ namespace dant02.snippets.dotnet.lib
                 readIndex = writeIndex = 0;
         }
 
-        protected abstract void Resize(int length);
+        protected abstract void Resize(long length);
     }
 }

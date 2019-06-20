@@ -31,7 +31,7 @@ namespace dant02.snippets.dotnet.lib
             this.bufferManager.ReturnBuffer(buffer);
         }
 
-        protected override void Resize(int length)
+        protected override void Resize(long length)
         {
             if (allocatedSize - writeIndex < length)
                 throw new NotImplementedException("Cannot resize managed byte queue");

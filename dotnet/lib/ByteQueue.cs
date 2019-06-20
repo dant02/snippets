@@ -19,7 +19,7 @@ namespace dant02.snippets.dotnet.lib
             this.buffer = new byte[allocatedSize];
         }
 
-        protected override void Resize(int length)
+        protected override void Resize(long length)
         {
             if (allocatedSize - writeIndex < length)
             {
