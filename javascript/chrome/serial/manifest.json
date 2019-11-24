@@ -1,0 +1,18 @@
+{
+  "name": "MASA serial",
+  "description": "Read/Write from/to serial port.",
+  "version": "1.0",
+  "manifest_version": 2, // required by developer.chrome.com/apps/manifestVersion.html
+  "permissions": [ "serial" ],
+
+  "app": {
+    "background": {
+      "scripts": [ "background.js" ]/*,
+      "persistent": false*/
+    }
+  },
+
+  "externally_connectable": {
+    "matches": [ "*://*.example.com/*", "*://127.0.0.1/*", "*://localhost/*" ]
+  }
+}
