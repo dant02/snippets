@@ -1,0 +1,7 @@
+// example code to get data from RS232 through chrome extension
+var editorExtensionId = "dpagdmgknngfcbmemcenhcldloanbaem";
+var port = chrome.runtime.connect(editorExtensionId, { name: "RS232" });
+port.postMessage({ data: "web connected" });
+port.onMessage.addListener(function (msg) {
+    console.log(msg);
+});
