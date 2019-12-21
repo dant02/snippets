@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using FirebirdSql.Data.FirebirdClient;
+using IronPdf;
 
 namespace app.console
 {
@@ -192,7 +194,7 @@ END ";
             //var printDialog = new PrintDialog();
             //printDialog.PrintQueue = pq
 
-            SendFileToPrinter("SEC001599B4FA0A", @"D:\elektlabs\masa\doc\System_Manuals\MASA_OData.pdf");
+            SendFileToPrinter("Microsoft XPS Document Writer", @"c:\elektlabs\masa\doc\System_Manuals\MASA_OData.pdf");
 
             //SendFileToPrinter("Microsoft Print to PDF", @"D:\elektlabs\masa\doc\System_Manuals\MASA_OData.pdf");
 
@@ -201,9 +203,53 @@ END ";
 
         #endregion spool print
 
+        #region iron pdf print
+
+
+
+        static void PrintIron()
+        {
+            // Create a new PDF and print it
+            IronPdf.HtmlToPdf Renderer = new IronPdf.HtmlToPdf();
+
+            var pdf = IronPdf.PdfDocument.FromFile(@"c:\elektlabs\masa\doc\System_Manuals\MASA_OData.pdf");
+
+            //PdfDocument Pdf = Renderer.RenderUrlAsPdf("https://www.nuget.org/packages/IronPdf");
+            // Send the PDF to the default printer to print // .Print();
+            using (var doc = pdf.GetPrintDocument())
+            {
+                var controller = new StandardPrintController();
+
+                doc.PrinterSettings.PrinterName = "Microsoft XPS Document Writer";
+                doc.PrinterSettings.Copies = 1;
+                doc.PrintController = controller;
+                doc.Print();
+            }
+
+                //For advanced silent real-world printing options, use  PdfDocument.GetPrintDocument
+                //Remember to add an assembly reference to System.Drawing.dll
+              //  System.Drawing.Printing.PrintDocument PrintDocYouCanWorkWith = pdf.GetPrintDocument();
+        }
+
+        #endregion
+
+        static void PrintGnostice()
+        {
+            using (var printer = new Gnostice.PDFOne.PDFPrinter.PDFPrinter())
+            {
+                printer.LoadDocument(@"c:\elektlabs\masa\doc\System_Manuals\MASA_OData.pdf");
+                printer.PrintOptions.PrinterName = "Microsoft XPS Document Writer";
+                printer.PrintOptions.Copies = 1;
+                printer.Print("test.xs");
+            }
+        }
+
         private static void Main(string[] args)
         {
-            Print();
+            //Gnostice.PDFOne.Extensions.MVC.PDFViewer.ActivateLicense("your-license-key");
+
+            //PrintIron();
+            PrintGnostice();
         }
     }
 }

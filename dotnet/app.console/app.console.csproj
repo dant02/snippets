@@ -61,14 +61,36 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FirebirdSql.Data.FirebirdClient">
-      <HintPath>..\..\..\..\..\Desktop\irreglar\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=7.1.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.7.1.1\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
-    <Reference Include="ReachFramework" />
+    <Reference Include="Gnostice.PDFOne">
+      <HintPath>..\..\..\..\..\AppData\Local\Microsoft\VisualStudio\16.0_cc268295\ProjectAssemblies\fvfcz3pv01\Gnostice.PDFOne.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.PDFOne.PDFPrinter">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Gnostice\PDFOne.NET\Bin\Framework 4.0\Gnostice.PDFOne.PDFPrinter.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.PDFOne.Windows.PDFViewer">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Gnostice\PDFOne.NET\Bin\Framework 4.0\Gnostice.PDFOne.Windows.PDFViewer.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.XtremeFontEngine.4.0">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Gnostice\PDFOne.NET\Bin\Framework 4.0\Gnostice.XtremeFontEngine.4.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.XtremeImageEngine.4.0">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Gnostice\PDFOne.NET\Bin\Framework 4.0\Gnostice.XtremeImageEngine.4.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zlib">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Gnostice\PDFOne.NET\Bin\Framework 4.0\Ionic.Zlib.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf, Version=2019.8.9.21868, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPdf.2019.8.9\lib\net40\IronPdf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,6 +118,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
