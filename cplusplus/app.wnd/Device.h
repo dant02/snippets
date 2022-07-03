@@ -31,6 +31,12 @@ namespace App
                 return name;
             }
         }
+
+        void Select();
+        void Release();
+
+        void ActivateObject(IMFMediaSource** source);
+
     private:
         IMFActivate* imfActivate; // media foundation device
     };

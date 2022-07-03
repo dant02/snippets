@@ -13,7 +13,7 @@ namespace App
 
     Device::!Device()
     {
-        if(this->imfActivate != nullptr)
+        if (this->imfActivate != nullptr)
         {
             this->imfActivate->Release();
             this->imfActivate = nullptr;
@@ -48,5 +48,19 @@ namespace App
         }
 
         return devices;
+    }
+
+    void Device::Select() {
+        imfActivate->AddRef();
+    }
+
+    void Device::Release() {
+        imfActivate->Release();
+    }
+
+    void Device::ActivateObject(IMFMediaSource** source)
+    {
+        auto hr = imfActivate->ActivateObject(__uuidof(IMFMediaSource),(void**)source);
+        Helper::CheckHResult(hr, "Error on IMFMediaSource::ActivateObject");
     }
 }
