@@ -1,0 +1,9 @@
+{
+  "solution": {
+    "path": "..\\snippets.sln",
+    "projects": [
+      "dotnet\\app.console\\app.console.csproj",
+      "dotnet\\lib\\lib.csproj"
+    ]
+  }
+}
