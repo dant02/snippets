@@ -7,7 +7,7 @@
 #include <Windows.h>
 #include <tchar.h>
 
-#include "DeviceList.h"
+#include "Device.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -36,10 +36,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 // application entry point
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nCmdShow)
 {
-    auto dl = new DeviceList();
-    dl->EnumerateDevices();
-
-    delete dl;
+    auto devices = App::Device::EnumerateDevices();
 
     WNDCLASS windowClass = { };
     windowClass.lpfnWndProc = WindowProc;
