@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "..\\snippets.sln",
+    "projects": [
+      "cplusplus\\app.wnd\\app.wnd.vcxproj"
+    ]
+  }
+}
