@@ -131,15 +131,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="program.cpp" />
-    <ClCompile Include="SelectedDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Helper.h" />
-    <ClInclude Include="SelectedDevice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

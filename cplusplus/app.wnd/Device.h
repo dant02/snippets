@@ -9,7 +9,7 @@
 using namespace System;
 using namespace System::Collections::Generic;
 
-namespace App
+namespace WndApp
 {
     ref class Device
     {
@@ -20,8 +20,10 @@ namespace App
 
         static List<Device^>^ EnumerateDevices();
 
-        property String^ Name {
-            String^ get() {
+        property String^ Name
+        {
+            String^ get()
+            {
                 wchar_t* ppszName = NULL;
                 UINT nameLength = NULL;
                 HRESULT hr = imfActivate->GetAllocatedString(MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME, &ppszName, &nameLength);
@@ -32,12 +34,17 @@ namespace App
             }
         }
 
+        property bool IsCapturing { bool get() { return this->isCapturing; } }
+
         void Select();
         void Release();
 
         void ActivateObject(IMFMediaSource** source);
+        void GetSymbolicLink(wchar_t** symbolicLink);
 
     private:
         IMFActivate* imfActivate; // media foundation device
+
+        bool isCapturing;
     };
 }

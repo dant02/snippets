@@ -1,5 +1,5 @@
 #include "Device.h"
-namespace App
+namespace WndApp
 {
     Device::Device(IMFActivate* activate)
     {
@@ -52,15 +52,25 @@ namespace App
 
     void Device::Select() {
         imfActivate->AddRef();
+        isCapturing = true;
     }
 
     void Device::Release() {
         imfActivate->Release();
+        isCapturing = false;
     }
 
     void Device::ActivateObject(IMFMediaSource** source)
     {
         auto hr = imfActivate->ActivateObject(__uuidof(IMFMediaSource),(void**)source);
         Helper::CheckHResult(hr, "Error on IMFMediaSource::ActivateObject");
+    }
+
+    void Device::GetSymbolicLink(wchar_t** symbolicLink)
+    {
+        UINT symbolicLinkLength = NULL;
+        auto hr = imfActivate->GetAllocatedString(MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_SYMBOLIC_LINK,
+            symbolicLink, &symbolicLinkLength);
+        Helper::CheckHResult(hr, "GetSymbolicLink - error on IMFMediaSource::GetAllocatedString");
     }
 }

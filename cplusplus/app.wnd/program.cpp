@@ -7,15 +7,22 @@
 #include <Windows.h>
 #include <tchar.h>
 
+#include "App.h"
 #include "Device.h"
-#include "SelectedDevice.h"
 
 using namespace System::Collections::Generic;
+using namespace WndApp;
+
+App* app = new App();
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
+        case WM_DEVICECHANGE:
+            app->OnDeviceChange(hwnd, wParam, (PDEV_BROADCAST_HDR)lParam);
+            return TRUE;
+
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
@@ -71,10 +78,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     ShowWindow(hwnd, nCmdShow);
 
-    auto devices = App::Device::EnumerateDevices();
-    auto selectedDevice = gcnew App::SelectedDevice(devices[0]);
+    auto devices = Device::EnumerateDevices();
+    app->StartCapture(devices[0]);
 
-    selectedDevice->StartCapture();
 
     MSG msg = { };
     while (GetMessage(&msg, NULL, 0, 0) > 0)
@@ -83,7 +89,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         DispatchMessage(&msg);
     }
 
-    delete selectedDevice;
+    app->StopCapture();
+    delete app;
 
     return 0;
 }

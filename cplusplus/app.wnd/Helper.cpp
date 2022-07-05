@@ -1,6 +1,6 @@
 #include "Helper.h"
 
-namespace App
+namespace WndApp
 {
     void Helper::CheckHResult(HRESULT result, String^ message)
     {

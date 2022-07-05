@@ -4,7 +4,7 @@
 
 using namespace System;
 
-namespace App
+namespace WndApp
 {
     ref class Helper
     {
