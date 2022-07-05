@@ -111,7 +111,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>mfplat.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mfplat.lib;mf.lib;mfreadwrite.lib;mfuuid.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,12 +132,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Capture.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="program.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Capture.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Helper.h" />
   </ItemGroup>
