@@ -7,8 +7,8 @@
 
 #include <msclr\auto_gcroot.h>
 
-#include "Capture.h"
 #include "Device.h"
+#include "Capture.h"
 
 using namespace System::Threading;
 
@@ -20,15 +20,18 @@ namespace WndApp
         ~App();
 
         void OnDeviceChange(HWND hDlg, WPARAM reason, DEV_BROADCAST_HDR* pHdr);
-        void StartCapture(Device^ device);
+        void StartCapture(Device^ device, ReadSampleCallback^ onReadSample);
         void StopCapture();
 
+        HRESULT OnReadSample(HRESULT status, DWORD streamIndex, DWORD streamFlags, __int64 timeStamp, IMFSample* sample);
     private:
         wchar_t* symbolicLink; // for handling device loss
         bool     isFirstSample;
         __int64  baseTime;
 
         Capture* capture;
+        IMFSourceReader* reader;
+        IMFSinkWriter* writer;
 
         msclr::auto_gcroot<Device^> selectedDevice;
         msclr::auto_gcroot<Object^> syncKey = gcnew Object();

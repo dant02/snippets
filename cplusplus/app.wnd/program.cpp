@@ -43,10 +43,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
+HRESULT OnReadSample(HRESULT status, DWORD streamIndex, DWORD streamFlags, __int64 timeStamp, IMFSample* sample)
+{
+    return app->OnReadSample(status, streamIndex, streamFlags, timeStamp, sample);
+}
+
 // application entry point
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nCmdShow)
 {
-
     WNDCLASS windowClass = { };
     windowClass.lpfnWndProc = WindowProc;
     windowClass.hInstance = hInstance;
@@ -79,8 +83,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     ShowWindow(hwnd, nCmdShow);
 
     auto devices = Device::EnumerateDevices();
-    app->StartCapture(devices[0]);
-
+    app->StartCapture(devices[0], gcnew ReadSampleCallback(OnReadSample));
 
     MSG msg = { };
     while (GetMessage(&msg, NULL, 0, 0) > 0)

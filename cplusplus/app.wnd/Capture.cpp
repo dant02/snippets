@@ -2,6 +2,11 @@
 
 namespace WndApp
 {
+    Capture::Capture(ReadSampleCallback^ onReadSample)
+    {
+        this->onReadSample = onReadSample;
+    }
+
     STDMETHODIMP Capture::QueryInterface(REFIID iid, void** ppv)
     {
         static const QITAB qit[] =
@@ -27,11 +32,18 @@ namespace WndApp
         return uCount;
     }
 
-    HRESULT Capture::OnReadSample(HRESULT status, DWORD streamIndex, DWORD streamFlags, __int64 timeStamp, IMFSample* sample)
+    STDMETHODIMP Capture::OnEvent(DWORD, IMFMediaEvent*)
     {
-        
-
-
         return S_OK;
+    }
+
+    STDMETHODIMP Capture::OnFlush(DWORD)
+    {
+        return S_OK;
+    }
+
+    STDMETHODIMP Capture::OnReadSample(HRESULT status, DWORD streamIndex, DWORD streamFlags, __int64 timeStamp, IMFSample* sample)
+    {
+        return onReadSample.get()(status, streamIndex, streamFlags, timeStamp, sample);
     }
 }

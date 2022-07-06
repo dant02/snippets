@@ -7,7 +7,7 @@ namespace WndApp
         delete this->selectedDevice;
     }
 
-    void App::StartCapture(Device^ device)
+    void App::StartCapture(Device^ device, ReadSampleCallback^ onReadSample)
     {
         this->selectedDevice = device;
         this->selectedDevice->Select();
@@ -20,18 +20,18 @@ namespace WndApp
         device->ActivateObject(&source);
         device->GetSymbolicLink(&symbolicLink);
 
-        this->capture = new Capture();
+        this->capture = new Capture(onReadSample);
 
-        IMFSourceReader* reader = OpenMediaSourceAndGetReader(source);
-        IMFSinkWriter* writer = GetWriter();
+        this->reader = OpenMediaSourceAndGetReader(source);
+        this->writer = GetWriter();
 
-        ConfigureCapture(reader, writer);
+        ConfigureCapture(this->reader, this->writer);
 
         isFirstSample = true;
         baseTime = 0;
 
         // Request the first video frame.
-        hr = reader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+        hr = this->reader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
             0, NULL, NULL, NULL, NULL);
         Helper::CheckHResult(hr, "Failed to read first sample");
 
@@ -190,6 +190,14 @@ namespace WndApp
     {
         this->selectedDevice->Release();
 
+        if (this->writer)
+        {
+            this->writer->Finalize();
+        }
+
+        SafeRelease(&this->writer);
+        SafeRelease(&this->reader);
+
         SafeRelease(&this->capture);
         CoTaskMemFree(&this->symbolicLink);
         this->symbolicLink = NULL;
@@ -277,6 +285,68 @@ namespace WndApp
         }
 
         PropVariantClear(&var);
+        return hr;
+    }
+
+    HRESULT App::OnReadSample(HRESULT status, DWORD streamIndex, DWORD streamFlags, __int64 timeStamp, IMFSample* sample)
+    {
+        if (!this->selectedDevice->IsCapturing)
+        {
+            return S_OK;
+        }
+
+        Monitor::Enter(syncKey);
+
+        if (!this->selectedDevice->IsCapturing)
+        {
+            Monitor::Exit(syncKey);
+            return S_OK;
+        }
+
+        HRESULT hr = S_OK;
+        try
+        {
+            if (FAILED(status))
+            {
+                hr = status;
+            }
+            Helper::CheckHResult(status, "Error on OnReadSample");
+
+            if (sample)
+            {
+                if (isFirstSample)
+                {
+                    baseTime = timeStamp;
+                    isFirstSample = false;
+                }
+
+                // rebase the time stamp
+                timeStamp -= baseTime;
+                hr = sample->SetSampleTime(timeStamp);
+                Helper::CheckHResult(hr, "Error on SetSampleTime");
+
+                hr = this->writer->WriteSample(0, sample);
+                Helper::CheckHResult(hr, "Error on WriteSample");
+            }
+
+            // Read another sample.
+            hr = this->reader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+                0,
+                NULL,   // actual
+                NULL,   // flags
+                NULL,   // timestamp
+                NULL    // sample
+            );
+        }
+        catch (Exception^ ex)
+        {
+            //NotifyError(hr);
+        }
+        finally
+        {
+            Monitor::Exit(syncKey);
+        }
+
         return hr;
     }
 }
