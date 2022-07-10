@@ -42,7 +42,21 @@ namespace WndApp
     void App::ConfigureCapture(IMFSourceReader* reader, IMFSinkWriter* writer)
     {
         DWORD sink_stream = 0;
-        IMFMediaType* mediaType = GetMediaType(reader);
+
+        UINT32 requiredWidth = 1280;
+        UINT32 requiredheight = 720;
+        auto mediaTypes = GetMediaType(reader);
+        MediaType^ mediaType;
+        for each (MediaType ^ mt in mediaTypes)
+        {
+            if (mt->Width == requiredWidth && mt->Height == requiredheight)
+            {
+                mediaType = mt;
+                break;
+            }
+        }
+
+        mediaType->SetOutputMediaType(reader);
 
         auto hr = ConfigureEncoder(mediaType, writer, &sink_stream);
         Helper::CheckHResult(hr, "Configure encoder");
@@ -51,17 +65,17 @@ namespace WndApp
             L"", MFT_ENUM_FLAG_SYNCMFT, 0, NULL, 0, NULL);
         Helper::CheckHResult(hr, "MFTRegisterLocalByCLSID");
 
-        hr = writer->SetInputMediaType(sink_stream, mediaType, NULL);
-        Helper::CheckHResult(hr, "Writer SetInputMediaType");
+        mediaType->SetInputMediaType(writer, sink_stream);
 
         hr = writer->BeginWriting();
         Helper::CheckHResult(hr, "Writer BeginWriting");
 
-        SafeRelease(&mediaType);
+        delete mediaTypes;
     }
 
-    IMFMediaType* App::GetMediaType(IMFSourceReader* reader)
+    List<MediaType^>^ App::GetMediaType(IMFSourceReader* reader)
     {
+        auto types = gcnew List<MediaType^>(2);
         IMFMediaType* nativeType = NULL;
 
         HRESULT nativeTypeErrorCode = S_OK;
@@ -71,7 +85,8 @@ namespace WndApp
         UINT32 requiredheight = 720;
         while (nativeTypeErrorCode == S_OK)
         {
-            try {
+            try
+            {
                 nativeTypeErrorCode = reader->GetNativeMediaType(streamIndex, count, &nativeType);
                 if (nativeTypeErrorCode != S_OK) continue;
 
@@ -84,31 +99,24 @@ namespace WndApp
                 hr = MFGetAttributeSize(nativeType, MF_MT_FRAME_SIZE, &width, &height);
                 Helper::CheckHResult(hr, "Error on MFGetAttributeSize");
 
-                if (/*nativeGuid == MFVideoFormat_YUY2 && */ width == requiredWidth && height == requiredheight)
-                {
-                    // found native config, set it
-                    hr = reader->SetCurrentMediaType(streamIndex, NULL, nativeType);
-                    Helper::CheckHResult(hr, "Error on IMFSourceReader SetCurrentMediaType");
-                    break;
-                }
+                types->Add(gcnew MediaType(nativeType, streamIndex, nativeGuid, width, height));
             }
             catch (Exception^ ex)
             {
-                SafeRelease(&nativeType);
-                throw;
+                delete types;
             }
 
-            SafeRelease(&nativeType);
             count++;
         }
 
-        return nativeType;
+        return types;
     }
 
-    HRESULT App::ConfigureEncoder(IMFMediaType* pType, IMFSinkWriter* pWriter, DWORD* pdwStreamIndex)
+    HRESULT App::ConfigureEncoder(MediaType^ mediaType, IMFSinkWriter* pWriter, DWORD* pdwStreamIndex)
     {
         auto subType = MFVideoFormat_H264;
-        auto bitrate = 240 * 1000;
+        //auto bitrate = 240 * 1000;
+        auto bitrate = 32 * 1000000;
 
         HRESULT hr = S_OK;
 
@@ -131,25 +139,10 @@ namespace WndApp
             hr = pType2->SetUINT32(MF_MT_AVG_BITRATE, bitrate);
         }
 
-        if (SUCCEEDED(hr))
-        {
-            hr = CopyAttribute(pType, pType2, MF_MT_FRAME_SIZE);
-        }
-
-        if (SUCCEEDED(hr))
-        {
-            hr = CopyAttribute(pType, pType2, MF_MT_FRAME_RATE);
-        }
-
-        if (SUCCEEDED(hr))
-        {
-            hr = CopyAttribute(pType, pType2, MF_MT_PIXEL_ASPECT_RATIO);
-        }
-
-        if (SUCCEEDED(hr))
-        {
-            hr = CopyAttribute(pType, pType2, MF_MT_INTERLACE_MODE);
-        }
+        mediaType->CopyAttribute(pType2, MF_MT_FRAME_SIZE);
+        mediaType->CopyAttribute(pType2, MF_MT_FRAME_RATE);
+        mediaType->CopyAttribute(pType2, MF_MT_PIXEL_ASPECT_RATIO);
+        mediaType->CopyAttribute(pType2, MF_MT_INTERLACE_MODE);
 
         if (SUCCEEDED(hr))
         {
@@ -269,23 +262,6 @@ namespace WndApp
         }
 
         return result;
-    }
-
-    HRESULT App::CopyAttribute(IMFAttributes* pSrc, IMFAttributes* pDest, const GUID& key)
-    {
-        PROPVARIANT var;
-        PropVariantInit(&var);
-
-        HRESULT hr = S_OK;
-
-        hr = pSrc->GetItem(key, &var);
-        if (SUCCEEDED(hr))
-        {
-            hr = pDest->SetItem(key, var);
-        }
-
-        PropVariantClear(&var);
-        return hr;
     }
 
     HRESULT App::OnReadSample(HRESULT status, DWORD streamIndex, DWORD streamFlags, __int64 timeStamp, IMFSample* sample)

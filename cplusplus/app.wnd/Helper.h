@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Windows.h>
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfobjects.h>
 
 using namespace System;
 
@@ -10,6 +13,10 @@ namespace WndApp
     {
     public:
         static void CheckHResult(HRESULT hr, String^ message);
+
+        static Guid^ ToGuid(GUID guid);
+
+        static HRESULT CopyAttribute(IMFAttributes* pSrc, IMFAttributes* pDest, const GUID& key);
     };
 
     template <class T> void SafeRelease(T** ppT)

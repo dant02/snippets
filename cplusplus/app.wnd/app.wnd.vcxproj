@@ -135,6 +135,7 @@
     <ClCompile Include="Capture.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="MediaType.cpp" />
     <ClCompile Include="program.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="Capture.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="MediaType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

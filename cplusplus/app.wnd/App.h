@@ -9,6 +9,7 @@
 
 #include "Device.h"
 #include "Capture.h"
+#include "MediaType.h"
 
 using namespace System::Threading;
 
@@ -42,10 +43,8 @@ namespace WndApp
         IMFSinkWriter* GetWriter();
 
         void ConfigureCapture(IMFSourceReader* reader, IMFSinkWriter* writer);
-        HRESULT ConfigureEncoder(IMFMediaType* pType, IMFSinkWriter* pWriter, DWORD* pdwStreamIndex);
+        HRESULT ConfigureEncoder(MediaType^ pType, IMFSinkWriter* pWriter, DWORD* pdwStreamIndex);
 
-        IMFMediaType* GetMediaType(IMFSourceReader* reader);
-
-        HRESULT CopyAttribute(IMFAttributes* pSrc, IMFAttributes* pDest, const GUID& key);
+        List<MediaType^>^ GetMediaType(IMFSourceReader* reader);
     };
 }
