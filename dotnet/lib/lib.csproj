@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 <PropertyGroup>
-		<TargetFrameworks>net452;netstandard1.6;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net472;netstandard1.6;netstandard2.0</TargetFrameworks>
 		<AssemblyName>dant02.snippets.dotnet.lib</AssemblyName>
 		<RootNamespace>dant02.snippets.dotnet.lib</RootNamespace>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -38,7 +38,7 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 	</PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
 		<Reference Include="System.Transactions" />
     <Reference Include="System.ServiceModel" />
 	</ItemGroup>
@@ -65,5 +65,8 @@
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
 	  </None>
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
 	</ItemGroup>
 </Project>
