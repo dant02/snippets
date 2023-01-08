@@ -22,7 +22,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Company />
     <Authors>dant02</Authors>
-    <PackageReleaseNotes>Remove unsupported ManagedByteQueue</PackageReleaseNotes>
+    <PackageReleaseNotes>Remove unsupported ManagedByteQueue, update project type</PackageReleaseNotes>
     <Version>1.0.2</Version>
     <FileVersion>1.0.2.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
