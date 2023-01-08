@@ -1,72 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-<PropertyGroup>
-		<TargetFrameworks>net472;netstandard1.6;netstandard2.0</TargetFrameworks>
-		<AssemblyName>dant02.snippets.dotnet.lib</AssemblyName>
-		<RootNamespace>dant02.snippets.dotnet.lib</RootNamespace>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
   <PropertyGroup>
-		<AssemblyTitle>.NET Snippets Library</AssemblyTitle>
-		<Copyright>(c) 2018-2019</Copyright>
-	</PropertyGroup>
-	<PropertyGroup>
-		<PackageId>dant02.snippets.dotnet.lib</PackageId>
-		<Title>.NET Snippest Library</Title>
-		<PackageDescription>.NET Snippets Library</PackageDescription>
-		<PackageTags></PackageTags>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>https://github.com/dant02/snippets</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/dant02/snippets</RepositoryUrl>
-		<NeutralLanguage>en-US</NeutralLanguage>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<Company />
-		<Authors>dant02</Authors>
-		<PackageReleaseNotes>ByteQueue
-- fix for read count</PackageReleaseNotes>
-		<Version>1.0.1</Version>
-		<AssemblyVersion>1.0.1.0</AssemblyVersion>
-		<FileVersion>1.0.1.0</FileVersion>
-	</PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<DefineConstants>TRACE</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-	</PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DelaySign>false</DelaySign>
+    <CurrentRevision Condition="'$(CurrentRevision)' == ''">0</CurrentRevision>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <AssemblyTitle>.NET Snippets Library</AssemblyTitle>
+    <Copyright>(c) 2018-2023</Copyright>
+  </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
-		<Reference Include="System.Transactions" />
-    <Reference Include="System.ServiceModel" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-		<PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
-		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-		<PackageReference Include="System.Data.Common" Version="4.3.0" />
-		<PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
-		<PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
-		<PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
-		<PackageReference Include="System.IO.UnmanagedMemoryStream" Version="4.3.0" />
-		<PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
-		<PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
-		<PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
-		<PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
-		<PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-		<PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Include="..\..\LICENSE">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
-	</ItemGroup>
+  <PropertyGroup Label="NuGet package properties" Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PackageId>dant02.snippets.dotnet.lib</PackageId>
+    <Title>.NET Snippest Library</Title>
+    <PackageDescription>.NET Snippets Library</PackageDescription>
+    <PackageTags></PackageTags>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/dant02/snippets</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dant02/snippets</RepositoryUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Company />
+    <Authors>dant02</Authors>
+    <PackageReleaseNotes>ByteQueue
+      - fix for read count</PackageReleaseNotes>
+    <Version>1.0.1</Version>
+    <FileVersion>1.0.1.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+  </PropertyGroup>
 </Project>
