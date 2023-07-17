@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="DOCINFOA.cs" />
     <Compile Include="Firebird.cs" />
+    <Compile Include="PalallelTest.cs" />
     <Compile Include="Prints.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
