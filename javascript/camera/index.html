@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+  </head>
+  <body>
+      <input type="file" accept="image/*;capture=camera">
+
+      <video id="vid" style="width:10%; height:10%;"></video>
+
+      <button onclick="onClick()" value="Take pic">Text</button>
+
+      <script type="text/javascript">
+          var errorCallback = function (e) {
+              console.log('Reeeejected!', e);
+          };
+
+          // Not showing vendor prefixes.
+          navigator.getUserMedia({
+              video: {
+                  width: { ideal: 4096 },
+                  height: { ideal: 2160 }
+              }, audio: false }, function (localMediaStream) {
+              var video = document.querySelector('video');
+              video.srcObject = localMediaStream;
+              //video.src = window.URL.createObjectURL(localMediaStream);
+
+              // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+              // See crbug.com/110938.
+              video.onloadedmetadata = function (e) {
+                  // Ready to go. Do some stuff
+                  video.play();
+              };
+          }, errorCallback);
+
+          function onClick() {
+              alert('what');
+
+              let canvas = document.createElement('canvas');
+              let video = document.querySelector('video');
+
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+
+              let ctx = canvas.getContext('2d');
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+              //let image = canvas.toDataURL('image/jpeg');
+
+              let downloadLink = document.createElement('a');
+              downloadLink.setAttribute('download', 'CanvasAsImage.png');
+
+              canvas.toBlob(function (blob) {
+                  //saveAs(blob, "image.png");
+
+                  let url = URL.createObjectURL(blob);
+                  downloadLink.setAttribute('href', url);
+                  downloadLink.click();
+              }, 'image/png', 1);
+          }
+      </script>
+  </body>
+</html>
